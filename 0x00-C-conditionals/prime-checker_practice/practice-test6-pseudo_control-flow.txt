@@ -1,0 +1,53 @@
+START
+    DISPLAY "Please enter a positive integer: "
+    INPUT n
+
+    // Step 1: Filter out edge cases
+    IF n < 2 THEN
+        DISPLAY n, " is neither Prime nor Perfect nor Deficient nor Abundant"
+        EXIT PROGRAM
+    ENDIF
+
+    // Step 2: Initialize variables
+    SET divisor = 1
+    SET proper_sum = 0
+
+    // Step 3: Optimized loop to find and sum proper divisors
+    WHILE (divisor * divisor) <= n DO
+        IF n MOD divisor == 0 THEN
+            SET pair = n / divisor
+
+            // Add the divisor if it's not the number itself
+            IF divisor != n THEN
+                SET proper_sum = proper_sum + divisor
+            ENDIF
+
+            // Add the paired divisor if it's unique and not the number itself
+            IF pair != divisor AND pair != n THEN
+                SET proper_sum = proper_sum + pair
+            ENDIF
+
+            // Step 4: Early exit for Abundant numbers
+            IF proper_sum > n THEN
+                DISPLAY n, " is Abundant"
+                EXIT PROGRAM
+            ENDIF
+        ENDIF
+        
+        SET divisor = divisor + 1
+    ENDWHILE
+
+    // Step 5: Independent property classification
+    IF proper_sum == 1 THEN
+        DISPLAY n, " is Prime"
+    ENDIF
+
+    IF proper_sum == n THEN
+        DISPLAY n, " is Perfect"
+    ENDIF
+
+    IF proper_sum < n THEN
+        DISPLAY n, " is Deficient"
+    ENDIF
+END
+
